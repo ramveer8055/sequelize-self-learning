@@ -39,10 +39,10 @@ db.Sequelize = Sequelize;
 //   console.log("RE SYNC")
 // })
 
-db.users = require("./user.js")(sequelize, Sequelize); 
+db.users = require("./user.js")(sequelize, Sequelize);
 db.posts = require("./post.js")(sequelize, Sequelize);
 
-db.users.hasOne(db.posts)
-db.posts.belongsTo(db.users)
+db.users.hasOne(db.posts, { foreignKey: 'user_id', as: 'post_details' })  // default userId 
+db.posts.belongsTo(db.users, { foreignKey: 'user_id'})
 
 module.exports = db;

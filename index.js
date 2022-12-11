@@ -4,6 +4,7 @@ const app = express()
 const PORT = 4242
 
 const userCtrl = require('./controllers/userController')
+const postCtrl = require('./controllers/postController')
 
 app.get('/', (req, res) => {
     res.status(200).json({
@@ -21,6 +22,9 @@ app.get('/raw-query', userCtrl.rawQuery)
 
 
 app.get('/oneToOne', userCtrl.oneToOne)
+
+app.get('/one-to-one', postCtrl.oneToOne)
+app.get('/belongs-to', postCtrl.belongsTo)
 
 app.listen(PORT, () => {
     console.log(`port is listening on http://localhost:${PORT}`)
