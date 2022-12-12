@@ -26,6 +26,10 @@ app.get('/oneToOne', userCtrl.oneToOne)
 app.get('/one-to-one', postCtrl.oneToOne)
 app.get('/belongs-to', postCtrl.belongsTo)
 
+
+
+app.get('/one-to-many', postCtrl.oneToMany)
+
 app.listen(PORT, () => {
     console.log(`port is listening on http://localhost:${PORT}`)
 })

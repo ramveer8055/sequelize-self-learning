@@ -42,7 +42,8 @@ db.Sequelize = Sequelize;
 db.users = require("./user.js")(sequelize, Sequelize);
 db.posts = require("./post.js")(sequelize, Sequelize);
 
-db.users.hasOne(db.posts, { foreignKey: 'user_id', as: 'post_details' })  // default userId 
-db.posts.belongsTo(db.users, { foreignKey: 'user_id'})
+// db.users.hasOne(db.posts, { foreignKey: 'user_id', as: 'post_details' })  // default userId 
+db.users.hasMany(db.posts, { foreignKey: 'user_id', as: 'post_details' })  // default userId 
+db.posts.belongsTo(db.users, { foreignKey: 'user_id', as: 'user_details'})
 
 module.exports = db;
