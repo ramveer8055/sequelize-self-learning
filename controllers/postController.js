@@ -2,6 +2,7 @@ const db = require('../models')
 
 const User = db.users
 const Post = db.posts
+const Tag = db.tags
 
 const oneToOne = async (req, res) => {
 
@@ -10,7 +11,7 @@ const oneToOne = async (req, res) => {
         include: {
             model: Post,
             as: 'post_details',
-            attributes: [['name','PostName'],'title','content']
+            attributes: [['name', 'PostName'], 'title', 'content']
         },
         where: {
             id: 7
@@ -23,13 +24,13 @@ const oneToOne = async (req, res) => {
     res.status(200).json(response)
 }
 
-const belongsTo = async(req, res)=>{
+const belongsTo = async (req, res) => {
     let data = await Post.findAll({
         attributes: ['content', 'title'],
         include: {
             model: User,
             as: 'user_details',
-            attributes: ['id','first_name']
+            attributes: ['id', 'first_name']
         }
     })
     let response = {
@@ -39,13 +40,39 @@ const belongsTo = async(req, res)=>{
     res.status(200).json(response)
 }
 
-const oneToMany = async(req, res)=>{
+const oneToMany = async (req, res) => {
     let data = await User.findAll({
         include: {
             model: Post,
             as: 'post_details',
         },
-       
+
+    })
+    let response = {
+        status: true,
+        data: data,
+    }
+    res.status(200).json(response)
+}
+
+const manyToMany = async (req, res) => {
+    //------------Post To Tag
+    // let data = await Post.findAll({
+    //     attributes: ['title','content'],
+    //     include:{
+    //         model: Tag,
+    //         attributes: ['name']
+    //     }
+    // })
+
+    //----------Tag To Post
+
+    let data = await Tag.findAll({
+        attributes: ['name'],
+        include: {
+            model: Post,
+            attributes: ['title']
+        }
     })
     let response = {
         status: true,
@@ -57,5 +84,6 @@ const oneToMany = async(req, res)=>{
 module.exports = {
     oneToOne,
     belongsTo,
-    oneToMany
+    oneToMany,
+    manyToMany
 }

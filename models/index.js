@@ -41,9 +41,18 @@ db.Sequelize = Sequelize;
 
 db.users = require("./user.js")(sequelize, Sequelize);
 db.posts = require("./post.js")(sequelize, Sequelize);
+db.tags = require("./tag.js")(sequelize, Sequelize);
+db.post_tags = require("./posttag.js")(sequelize, Sequelize);
 
+//--------One To One-----------------
 // db.users.hasOne(db.posts, { foreignKey: 'user_id', as: 'post_details' })  // default userId 
+
+//--------One To Many----------------
 db.users.hasMany(db.posts, { foreignKey: 'user_id', as: 'post_details' })  // default userId 
-db.posts.belongsTo(db.users, { foreignKey: 'user_id', as: 'user_details'})
+db.posts.belongsTo(db.users, { foreignKey: 'user_id', as: 'user_details' })
+
+//--------Many To Many---------------
+db.posts.belongsToMany(db.tags, { through: 'post_tags', foreignKey: 'tag_id' })
+db.tags.belongsToMany(db.posts, { through: 'post_tags', foreignKey: 'post_id' })
 
 module.exports = db;
