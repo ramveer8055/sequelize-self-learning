@@ -21,7 +21,7 @@ app.get('/validation', userCtrl.validatConst)
 app.get('/raw-query', userCtrl.rawQuery)
 
 
-app.get('/oneToOne', userCtrl.oneToOne)
+app.get('/scope', userCtrl.scope)
 
 app.get('/one-to-one', postCtrl.oneToOne)
 app.get('/belongs-to', postCtrl.belongsTo)

@@ -49,10 +49,44 @@ db.post_tags = require("./posttag.js")(sequelize, Sequelize);
 
 //--------One To Many----------------
 db.users.hasMany(db.posts, { foreignKey: 'user_id', as: 'post_details' })  // default userId 
-db.posts.belongsTo(db.users, { foreignKey: 'user_id', as: 'user_details' })
+
+//--------Scope Active user posts
+// db.posts.belongsTo(db.users, { foreignKey: 'user_id', as: 'user_details' })
 
 //--------Many To Many---------------
 db.posts.belongsToMany(db.tags, { through: 'post_tags', foreignKey: 'tag_id' })
 db.tags.belongsToMany(db.posts, { through: 'post_tags', foreignKey: 'post_id' })
+
+//-------Scope ---------------------
+db.users.addScope('checkStatus',{
+  where:{
+    status:1
+  }
+})
+
+db.posts.belongsTo(db.users.scope('checkStatus'), { foreignKey: 'user_id', as: 'user_details' })
+
+
+db.users.addScope('checkGender', {
+  where: {
+    status: 1,
+    gender: 'M'
+  }
+})
+
+
+//-------When we doesn't relationship b/w 
+db.users.addScope('includePost',{
+  include:{
+    model: db.posts,
+    attributes: ['title', 'content']
+  }
+})
+db.users.addScope('selectUsers', {
+  attributes:['name','email']
+})
+db.users.addScope('limit', {
+  limit:2
+})
 
 module.exports = db;

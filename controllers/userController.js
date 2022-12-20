@@ -2,18 +2,19 @@ const db = require('../models')
 const { Sequelize, Op, QueryTypes } = require('sequelize')
 
 const User = db.users
+const Post = db.posts
 const addUser = async (req, res) => {
 
-    // let data =await User.build({first_name:"King"})
+    // let data =await User.build({name:"King"})
     // data.save()
 
     //update
-    // data.first_name = "Pummy"
+    // data.name = "Pummy"
     // data.save()
     // console.log(data.dataValues)
-    const data = await User.create({ first_name: "Jane" });
+    const data = await User.create({ name: "Jane" });
 
-    data.first_name = "King"
+    data.name = "King"
     data.reload()
     data.save()
 
@@ -29,10 +30,10 @@ const addUser = async (req, res) => {
 const crudOperation = async (req, res) => {
 
     //------------ Insert
-    // const data = await User.create({ first_name: "Jane" });
+    // const data = await User.create({ name: "Jane" });
 
     //------------- update
-    // const data = await User.update({ first_name: "King" },{
+    // const data = await User.update({ name: "King" },{
     //     where:{
     //         id:16
     //     }
@@ -54,10 +55,10 @@ const crudOperation = async (req, res) => {
 
     //-----------Blul Create
     // const data = await User.bulkCreate([
-    //     { first_name: "Hello" },
-    //     { first_name: "Hello" },
-    //     { first_name: "Hello" },
-    //     { first_name: "Hello" }
+    //     { name: "Hello" },
+    //     { name: "Hello" },
+    //     { name: "Hello" },
+    //     { name: "Hello" }
     // ])
 
 
@@ -79,14 +80,14 @@ const crudOperation = async (req, res) => {
 
 const queryData = async (req, res) => {
 
-    // const data = await User.create({ first_name: "Jane", last_name: "chauhan" },{
+    // const data = await User.create({ name: "Jane", last_name: "chauhan" },{
     //     fields: ['last_name']
     // });
 
     //-----------Select
     // const data = await User.findAll({
     //     attributes: [
-    //         'first_name',
+    //         'name',
     //         ['created_at','Date'],
     //         'updated_at',
     //         [Sequelize.fn('CONCAT', Sequelize.col('email'),'ID'), 'email_count'],
@@ -98,7 +99,7 @@ const queryData = async (req, res) => {
     //     attributes:{
     //         exclude:['created_at', 'updated_at'],
     //         include: [
-    //             [Sequelize.fn('CONCAT', Sequelize.col('first_name'),' ', Sequelize.col('last_name')), 'full_name']
+    //             [Sequelize.fn('CONCAT', Sequelize.col('name'),' ', Sequelize.col('last_name')), 'full_name']
     //         ]
     //     }
     // });
@@ -118,7 +119,7 @@ const queryData = async (req, res) => {
     //         }
     //     },
     //     order: [
-    //         ['first_name', 'DESC'],
+    //         ['name', 'DESC'],
     //         // ['email','ASC']
     //     ],
     //     limit:2,
@@ -146,12 +147,12 @@ const finderData = async (req, res) => {
     // let data = await User.findByPk(5);
     // let data = await User.findAndCountAll({
     //     where:{
-    //         first_name: 'Hello'
+    //         name: 'Hello'
     //     }
     // });
     let [data, created] = await User.findOrCreate({
         where: {
-            first_name: 'Sfrok'
+            name: 'Sfrok'
         },
         defaults: {
             email: 'hello@gmail.com',
@@ -167,7 +168,7 @@ const finderData = async (req, res) => {
 }
 
 const setterGetter = async (req, res) => {
-    const data = await User.create({ first_name: "Jane", email: "test2@mail.com" });
+    const data = await User.create({ name: "Jane", email: "test2@mail.com" });
     // let data = await User.findAll();
     let response = {
         status: true,
@@ -179,7 +180,7 @@ const setterGetter = async (req, res) => {
 
 const validatConst = async (req, res) => {
     try {
-        const data = await User.create({ first_name: "Jane", email: "test4@mail.com", gender: "M" });
+        const data = await User.create({ name: "Jane", email: "test4@mail.com", gender: "M" });
         res.status(200).json({
             status: true,
             message: "success",
@@ -231,10 +232,19 @@ const rawQuery = async(req,res)=>{
     res.status(200).json(response)
 }
 
-const oneToOne = async(req, res)=>{
+const scope  = async(req, res)=>{
+    // let data = await User.scope('checkStatus').findAll()
+    // let data = await User.scope(['checkStatus','checkGender']).findAll()
+    // let data = await Post.findAll({
+    //     include:[{
+    //         model: User,
+    //         as: 'user_details'
+    //     }]
+    // })
+    let data = await User.scope(['includePost', 'selectUsers', 'limit'])
     let response = {
         status: true,
-        data: 'one-to-one',
+        data: data,
     }
     res.status(200).json(response)
 }
@@ -247,5 +257,5 @@ module.exports = {
     setterGetter,
     validatConst,
     rawQuery,
-    oneToOne
+    scope
 }

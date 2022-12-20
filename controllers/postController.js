@@ -7,7 +7,7 @@ const Tag = db.tags
 const oneToOne = async (req, res) => {
 
     let data = await User.findAll({
-        attributes: ['first_name'],
+        attributes: ['name'],
         include: {
             model: Post,
             as: 'post_details',
@@ -30,7 +30,7 @@ const belongsTo = async (req, res) => {
         include: {
             model: User,
             as: 'user_details',
-            attributes: ['id', 'first_name']
+            attributes: ['id', 'name']
         }
     })
     let response = {

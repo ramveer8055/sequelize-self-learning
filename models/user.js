@@ -14,16 +14,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    first_name: {
+    name: {
       type: DataTypes.STRING,
       set(value) {
-        this.setDataValue(`first_name`, value + ' Singh')
+        this.setDataValue(`name`, value + ' Singh')
       },
       get() {
-        return this.getDataValue('first_name') + ' SS ' + this.email
+        return this.getDataValue('name') + ' SS ' + this.email
       }
     },
-    last_name: DataTypes.STRING,
     gender: {
       type: DataTypes.STRING,
       validate: {
@@ -44,11 +43,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     },
-    user_name: DataTypes.STRING,
-    password: DataTypes.STRING,
-    job_title: {
-      type: DataTypes.STRING,
-      defaultValue: "Software Engineer"
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 0
     }
   }, {
     sequelize,
