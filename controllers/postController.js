@@ -81,9 +81,31 @@ const manyToMany = async (req, res) => {
     res.status(200).json(response)
 }
 
+
+const loading = async (req, res) => {
+    //Eager loading
+    let data = await User.findOne({
+        include:[{
+            required: true,
+            model: Post,
+            as: 'post_details',
+            attributes: ['name']
+        }],
+        where:{
+            id:2
+        }
+    })
+    let response = {
+        status: true,
+        data: data,
+    }
+    res.status(200).json(response)
+}
+
 module.exports = {
     oneToOne,
     belongsTo,
     oneToMany,
-    manyToMany
+    manyToMany,
+    loading
 }

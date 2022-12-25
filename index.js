@@ -37,6 +37,8 @@ app.get('/many-to-many', postCtrl.manyToMany)
 app.get('/polymorphic', polymorphicCtrl.polymorphic)
 app.get('/polymorphic-many', polymorphicCtrl.polymorphicMany)
 
+app.get('/loading', postCtrl.loading)
+
 app.listen(PORT, () => {
     console.log(`port is listening on http://localhost:${PORT}`)
 })
