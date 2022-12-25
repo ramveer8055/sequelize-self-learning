@@ -39,6 +39,8 @@ app.get('/polymorphic-many', polymorphicCtrl.polymorphicMany)
 
 app.get('/loading', postCtrl.loading)
 
+app.get('/paranoid', polymorphicCtrl.paranoid)
+
 app.listen(PORT, () => {
     console.log(`port is listening on http://localhost:${PORT}`)
 })

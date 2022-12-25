@@ -177,4 +177,8 @@ db.tags.belongsToMany(db.videos, {
 })
 
 
+//-------------------------Paranoid------------------------
+db.employees = require('./employee')(sequelize, Sequelize)
+
+
 module.exports = db;
