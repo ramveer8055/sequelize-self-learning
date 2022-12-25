@@ -6,6 +6,7 @@ const PORT = 4242
 const userCtrl = require('./controllers/userController')
 const postCtrl = require('./controllers/postController')
 const polymorphicCtrl = require('./controllers/polymorphicController')
+const transactionCtrl = require('./controllers/transactioncontroller.js')
 
 app.get('/', (req, res) => {
     res.status(200).json({
@@ -40,6 +41,9 @@ app.get('/polymorphic-many', polymorphicCtrl.polymorphicMany)
 app.get('/loading', postCtrl.loading)
 
 app.get('/paranoid', polymorphicCtrl.paranoid)
+
+
+app.get('/transaction', transactionCtrl.transaction)
 
 app.listen(PORT, () => {
     console.log(`port is listening on http://localhost:${PORT}`)
