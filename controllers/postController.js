@@ -88,7 +88,7 @@ const loading = async (req, res) => {
         include:[{
             required: true,
             model: Post,
-            as: 'post_details',
+           
             attributes: ['name']
         }],
         where:{

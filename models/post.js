@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     user_id: DataTypes.INTEGER
   }, {
     sequelize,
+    underscored: true,
     modelName: 'post',
     createdAt: 'created_at',
     updatedAt: 'updated_at'

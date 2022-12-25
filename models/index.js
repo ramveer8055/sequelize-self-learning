@@ -48,7 +48,7 @@ db.post_tags = require("./posttag.js")(sequelize, Sequelize);
 // db.users.hasOne(db.posts, { foreignKey: 'user_id', as: 'post_details' })  // default userId 
 
 //--------One To Many----------------
-db.users.hasMany(db.posts, { foreignKey: 'user_id', as: 'post_details' })  // default userId 
+db.users.hasMany(db.posts)  // default userId 
 
 //--------Scope Active user posts
 // db.posts.belongsTo(db.users, { foreignKey: 'user_id', as: 'user_details' })
