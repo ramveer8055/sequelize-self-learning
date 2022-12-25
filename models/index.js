@@ -58,9 +58,9 @@ db.posts.belongsToMany(db.tags, { through: 'post_tags', foreignKey: 'tag_id' })
 db.tags.belongsToMany(db.posts, { through: 'post_tags', foreignKey: 'post_id' })
 
 //-------Scope ---------------------
-db.users.addScope('checkStatus',{
-  where:{
-    status:1
+db.users.addScope('checkStatus', {
+  where: {
+    status: 1
   }
 })
 
@@ -76,17 +76,105 @@ db.users.addScope('checkGender', {
 
 
 //-------When we doesn't relationship b/w 
-db.users.addScope('includePost',{
-  include:{
+db.users.addScope('includePost', {
+  include: {
     model: db.posts,
     attributes: ['title', 'content']
   }
 })
 db.users.addScope('selectUsers', {
-  attributes:['name','email']
+  attributes: ['name', 'email']
 })
 db.users.addScope('limit', {
-  limit:2
+  limit: 2
 })
+
+
+//--------------------Polymorphic one to many--------------
+
+db.videos = require('./video')(sequelize, Sequelize)
+db.images = require('./image')(sequelize, Sequelize)
+db.comments = require('./comment')(sequelize, Sequelize)
+
+db.images.hasMany(db.comments, {
+  foreignKey: 'comment_table_id',
+  constraints: false,
+  scope: {
+    comment_table_type: 'image'
+  }
+})
+
+
+db.videos.hasMany(db.comments, {
+  foreignKey: 'comment_table_id',
+  constraints: false,
+  scope: {
+    comment_table_type: 'video'
+  }
+})
+
+db.comments.belongsTo(db.images, { foreignKey: 'comment_table_id', constraints: false })
+
+db.comments.belongsTo(db.videos, { foreignKey: 'comment_table_id', constraints: false })
+
+//-----------------Polymorphic Many To Many--------------
+db.tag_taggables = require('./tagtaggable')(sequelize, Sequelize);
+
+//--------------------------Image to Tag-----------------
+db.images.belongsToMany(db.tags, {
+  through: {
+    model: db.tag_taggables,
+    unique: false,
+    scope: {
+      taggable_type: 'image'
+    },
+    foreignKey: 'taggable_id',
+    constraints: false
+  }
+})
+
+
+
+//--------------------------Tag to Image-----------------
+db.tags.belongsToMany(db.images, {
+  through: {
+    model: db.tag_taggables,
+    unique: false,
+    scope: {
+      taggable_type: 'image'
+    },
+    foreignKey: 'tag_id',
+    constraints: false
+  }
+})
+
+
+//--------------------------Video to Tag-----------------
+db.videos.belongsToMany(db.tags, {
+  through: {
+    model: db.tag_taggables,
+    unique: false,
+    scope: {
+      taggable_type: 'video'
+    },
+    foreignKey: 'taggable_id',
+    constraints: false
+  }
+})
+
+
+//--------------------------Tag to Video-----------------
+db.tags.belongsToMany(db.videos, {
+  through: {
+    model: db.tag_taggables,
+    unique: false,
+    scope: {
+      taggable_type: 'video'
+    },
+    foreignKey: 'tag_id',
+    constraints: false
+  }
+})
+
 
 module.exports = db;

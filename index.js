@@ -5,6 +5,7 @@ const PORT = 4242
 
 const userCtrl = require('./controllers/userController')
 const postCtrl = require('./controllers/postController')
+const polymorphicCtrl = require('./controllers/polymorphicController')
 
 app.get('/', (req, res) => {
     res.status(200).json({
@@ -30,6 +31,11 @@ app.get('/belongs-to', postCtrl.belongsTo)
 
 app.get('/one-to-many', postCtrl.oneToMany)
 app.get('/many-to-many', postCtrl.manyToMany)
+
+
+
+app.get('/polymorphic', polymorphicCtrl.polymorphic)
+app.get('/polymorphic-many', polymorphicCtrl.polymorphicMany)
 
 app.listen(PORT, () => {
     console.log(`port is listening on http://localhost:${PORT}`)
