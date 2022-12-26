@@ -47,6 +47,8 @@ app.get('/transaction', transactionCtrl.transaction)
 
 app.get('/hooks', transactionCtrl.hooks)
 
+app.get('/queryInterFaceData', transactionCtrl.queryInterFaceData)
+
 app.listen(PORT, () => {
     console.log(`port is listening on http://localhost:${PORT}`)
 })

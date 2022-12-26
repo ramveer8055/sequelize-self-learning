@@ -1,3 +1,4 @@
+const { DataTypes } = require('sequelize')
 const { sequelize } = require('../models')
 const db = require('../models')
 const User = db.users
@@ -33,7 +34,43 @@ const hooks = async (req, res) => {
     })
 }
 
+
+const queryInterFace = sequelize.getQueryInterface()
+
+const queryInterFaceData = async (req, res) => {
+    //----------Create trable--------------
+    // queryInterFace.createTable('avon',{
+    //     name: DataTypes.STRING
+    // })
+
+    //----------Column Add-----------------
+    // queryInterFace.addColumn('avon', 'email',{
+    //     type: DataTypes.STRING
+    // })
+
+
+    //----------Alter-----------------
+    // queryInterFace.changeColumn('avon', 'email',{
+    //     type: DataTypes.STRING,
+    //     defaultValue: 'test@gmail.com'
+    // })
+
+    //---------Column Remove----------
+    // queryInterFace.removeColumn('avon', 'name')
+
+
+    //---------Drop table-------------
+    queryInterFace.dropTable('avon')
+
+    let data = "hell"
+    res.status(200).json({
+        status: true,
+        data: data
+    })
+}
+
 module.exports = {
     transaction,
-    hooks
+    hooks,
+    queryInterFaceData
 }
