@@ -45,6 +45,8 @@ app.get('/paranoid', polymorphicCtrl.paranoid)
 
 app.get('/transaction', transactionCtrl.transaction)
 
+app.get('/hooks', transactionCtrl.hooks)
+
 app.listen(PORT, () => {
     console.log(`port is listening on http://localhost:${PORT}`)
 })

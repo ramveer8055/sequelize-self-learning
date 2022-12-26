@@ -52,6 +52,26 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'user',
     createdAt: 'created_at',
     updatedAt: 'updated_at'
+    // ,
+    // hooks:{
+    //   beforeValidate:(user, options)=>{
+    //     console.log("yes hooks called")
+    //     user.name = "dummy"
+    //   },
+    //   afterValidate:(user, options)=>{
+    //     console.log("hook after")
+    //     user.name = "Ram"
+    //   }
+    // }
   });
+
+  User.addHook('beforeValidate', 'customName', (user, options)=>{
+    user.name= "Test";
+  })
+
+  User.afterValidate('myHookLast', (user, options)=>{
+    user.name = "Demo"
+  })
+
   return User;
 };

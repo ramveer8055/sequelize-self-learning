@@ -2,7 +2,7 @@ const { sequelize } = require('../models')
 const db = require('../models')
 const User = db.users
 
-const transaction = async(req, res)=>{
+const transaction = async (req, res) => {
     const t = await sequelize.transaction()
     // try {
     //     const user = await User.create({name: 'Veer', email:"veer@mail", gender: 'M'},{
@@ -14,8 +14,8 @@ const transaction = async(req, res)=>{
     // }
 
     const data = await User.findAll({
-        transaction:t,
-        lock:true
+        transaction: t,
+        lock: true
     })
 
     res.status(200).json({
@@ -24,6 +24,16 @@ const transaction = async(req, res)=>{
     })
 }
 
+
+const hooks = async (req, res) => {
+    const data = await User.create({ name: 'Veer', email: "foll34w@mail", gender: 'M' })
+    res.status(200).json({
+        status: true,
+        data: data
+    })
+}
+
 module.exports = {
-    transaction
+    transaction,
+    hooks
 }
